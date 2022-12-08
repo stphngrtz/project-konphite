@@ -2,8 +2,10 @@ name: Build todo-service
 
 on:
   push:
-    paths:
-      - todo-service
+    #paths:
+    #  - todo-service
+
+  workflow_dispatch:
 
 jobs:
   build:
