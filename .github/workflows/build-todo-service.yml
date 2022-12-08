@@ -1,6 +1,9 @@
-name: Build project
+name: Build todo-service
 
-on: [push]
+on:
+  push:
+    paths:
+      - todo-service
 
 jobs:
   build:
@@ -19,3 +22,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+          build-root-directory: todo-service
