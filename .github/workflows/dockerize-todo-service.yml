@@ -1,9 +1,15 @@
 name: Dockerize todo-service
 
 on:
+  push: # temp
+    paths: # temp
+      - "todo-service/**"
+
   workflow_run:
-    workflows: [Build todo-service]
-    #branches: [main]
+    workflows:
+      - Build todo-service
+    branches:
+      - main
     types:
       - completed
 
