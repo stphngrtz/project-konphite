@@ -1,10 +1,6 @@
 name: Dockerize todo-service
 
 on:
-  push: # temp
-    paths: # temp
-      - "todo-service/**"
-
   workflow_run:
     workflows:
       - Build todo-service
@@ -13,12 +9,10 @@ on:
     types:
       - completed
 
-  workflow_dispatch:
-
 jobs:
   dockerize:
     runs-on: ubuntu-latest
-    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout
