@@ -18,4 +18,4 @@ docker run --name todo-service -d -p 8080:8080 konphite/todo-service
 
 See `requests.http` for example requests.
 
-.. to trigger build ..
+.. to trigger build .. .. and again ..
