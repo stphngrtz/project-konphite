@@ -3,7 +3,7 @@ name: Build todo-service
 on:
   push:
     paths:
-      - 'todo-service/**'
+      - "todo-service/**"
 
   workflow_dispatch:
 
