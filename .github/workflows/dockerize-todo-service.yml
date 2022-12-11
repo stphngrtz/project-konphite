@@ -40,4 +40,4 @@ jobs:
           file: ./todo-service/src/main/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: konphite/todo-service:latest
+          tags: ghcr.io/stphngrtz/konphite/todo-service:latest
