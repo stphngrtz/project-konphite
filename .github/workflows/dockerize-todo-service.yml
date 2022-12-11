@@ -1,17 +1,20 @@
 name: Dockerize todo-service
 
 on:
-  push:
-    #branches:
-    #  - "main"
-    paths:
-      - "todo-service/**"
+  workflow_run:
+    workflows:
+      - Build todo-service
+    branches:
+      - main
+    types: 
+      - completed
 
   workflow_dispatch:
 
 jobs:
   dockerize:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout
@@ -30,6 +33,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./todo-service
+          file: ./todo-service/src/main/docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: konphite/todo-service:latest
