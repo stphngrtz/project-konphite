@@ -1,13 +1,15 @@
-name: Deploy documentation to to Pages
+name: Deploy documentation to Pages
 
 on:
   push:
     paths:
       - "documentation/**"
+      # todo main only, as soon as it works
 
   workflow_dispatch:
 
 permissions:
+  contents: read
   pages: write
   id-token: write
 
