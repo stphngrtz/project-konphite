@@ -1,0 +1,42 @@
+@startuml
+
+actor User
+
+box Service #lightgray
+control Job
+participant Processor
+end box
+
+User ->> Job: before()
+
+group grouped logic
+  else option 1
+    User -> Job: do something
+    activate Job
+    
+    Job -> Processor: request
+    activate Processor
+    return response
+    deactivate Processor  
+  
+    Job -> Job: process it
+    activate Job #lightgreen
+    
+    note right #lightblue
+      <b>Payload</b>
+      * lorem impsum dolor sit
+      * consetetur sadipscing
+    end note
+    
+    deactivate Job #90EE90
+
+    Job --> User: done
+  
+    deactivate Job    
+  else option 2
+    User ->> Job: trigger()
+end
+
+User ->> Job: after()
+
+@enduml
