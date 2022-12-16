@@ -8,3 +8,5 @@
 # open documentation
 open build/docs/index.html
 ```
+
+dmmyttrigger
