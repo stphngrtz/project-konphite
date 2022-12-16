@@ -9,4 +9,4 @@
 open build/docs/index.html
 ```
 
-dmmyttrigger another
+dmmyttrigger another yet another
