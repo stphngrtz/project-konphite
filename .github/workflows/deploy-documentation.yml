@@ -4,7 +4,8 @@ on:
   push:
     paths:
       - "documentation/**"
-      # todo main only, as soon as it works
+    branches:
+      - main
 
   workflow_dispatch:
 
@@ -42,7 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'documentation/build/docs/'
+          path: 'documentation/build/docs/asciidoc/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
