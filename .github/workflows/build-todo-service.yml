@@ -12,19 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: temurin
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
+      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/gradle-build-action@v2
         with:
           arguments: :todo-service:build
-      - name: Cache build artifact
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
+        if: ${{ github.ref == 'refs/heads/main' }}
         id: restore-build-artifact
         with:
           path: ./todo-service/build/libs/*
@@ -32,27 +29,22 @@ jobs:
   dockerize:
     needs: build
     runs-on: ubuntu-latest
-    #if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Restore cached build artifact
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         id: restore-build-artifact
         with:
           path: ./todo-service/build/libs/*
           key: ${{ github.sha }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to GHCR
-        uses: docker/login-action@v2
+      - uses: docker/setup-qemu-action@v2
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v3
         with:
           context: ./todo-service
           file: ./todo-service/src/main/docker/Dockerfile
