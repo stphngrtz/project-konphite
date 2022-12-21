@@ -23,11 +23,24 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: :todo-service:build
+      - name: Cache build artifact
+        uses: actions/cache@v2
+        id: restore-build-artifact
+        with:
+          path: ./todo-service/build/libs/*
+          key: ${{ github.sha }}
   dockerize:
     needs: build
     runs-on: ubuntu-latest
     #if: ${{ github.ref == 'refs/heads/main' }}
     steps:
+      - uses: actions/checkout@v3
+      - name: Restore cached build artifact
+        uses: actions/cache@v2
+        id: restore-build-artifact
+        with:
+          path: ./todo-service/build/libs/*
+          key: ${{ github.sha }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
