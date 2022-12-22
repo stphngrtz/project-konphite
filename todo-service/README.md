@@ -16,10 +16,10 @@ java -jar build/libs/todo-service-0.0.1-SNAPSHOT.jar
 docker build -f src/main/docker/Dockerfile -t konphite/todo-service .
 
 # run Docker container
-docker run --name todo-service -d -p 8080:8080 konphite/todo-service
+docker run --name todo-service -d -p 8080:8080 -e SPRING_DATA_REDIS_HOST=$HOST konphite/todo-service
 
 # run Docker container from ghcr.io
-docker run --name todo-service -d -p 8080:8080 ghcr.io/stphngrtz/konphite/todo-service:latest
+docker run --name todo-service -d -p 8080:8080 -e SPRING_DATA_REDIS_HOST=$HOST ghcr.io/stphngrtz/konphite/todo-service:latest
 ```
 
 See `requests.http` for example requests.
