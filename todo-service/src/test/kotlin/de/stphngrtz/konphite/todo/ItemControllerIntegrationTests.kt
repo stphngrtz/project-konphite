@@ -9,10 +9,30 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.GenericContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.*
 
+@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ItemControllerIntegrationTests(@Autowired val restTemplate: TestRestTemplate) {
+
+    companion object {
+        @Container
+        private val redis = GenericContainer<Nothing>("redis:7").apply {
+            withExposedPorts(6379)
+        }
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun properties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.redis.host", redis::getHost)
+            registry.add("spring.redis.port") { redis.getMappedPort(6379).toString() }
+        }
+    }
 
     @Test
     fun `get all items`() {
