@@ -11,44 +11,39 @@ import java.util.*
 
 @Controller
 @RequestMapping("/items")
-class ItemController {
+class ItemController(private val repository: ItemRepository) {
 
     companion object { // https://www.baeldung.com/kotlin/logging#companion
         @JvmStatic
         val log: Logger = LoggerFactory.getLogger(ItemController::class.java)
     }
 
-    private val items = arrayListOf(
-        Item("1", "first example", false),
-        Item("2", "second example", true),
-        Item("3", "third example", false)
-    )
-
     @GetMapping
-    fun getAll(): ResponseEntity<List<Item>> {
-        return ResponseEntity.ok(items)
+    fun getAll(): ResponseEntity<Iterable<Item>> {
+        return ResponseEntity.ok(repository.findAll())
     }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: String): ResponseEntity<Item> {
-        val item = items.find { it.id == id }
-        return if (item == null) ResponseEntity.notFound().build() else ResponseEntity.ok(item)
+        return repository.findById(id)
+            .map { ResponseEntity.ok(it) }
+            .orElseGet { ResponseEntity.notFound().build() }
     }
 
     @PostMapping
     fun create(@RequestBody item: Item, req: HttpServletRequest): ResponseEntity<Error> {
-        val alreadyExistingItem = item.id.let { id -> items.find { it.id == id } }
-        if (alreadyExistingItem != null) {
+        val exists = item.id?.let { repository.existsById(it) } ?: false
+        if (exists) {
             log.warn("unable to create an item, because its id already exists: $item")
             return ResponseEntity
                 .badRequest()
-                .body(Error("item with id '${alreadyExistingItem.id}' already exists"))
+                .body(Error("item with id '${item.id}' already exists"))
         }
 
         val id = item.id ?: UUID.randomUUID().toString()
         val newItem = Item(id, item.subject, item.done)
         log.info("creating new item: $newItem")
-        items.add(newItem)
+        repository.save(newItem)
 
         return ResponseEntity
             .created(UriComponentsBuilder.fromUriString(req.requestURI).path("/{id}").build(id))
@@ -57,17 +52,16 @@ class ItemController {
 
     @PutMapping("/{id}")
     fun update(@PathVariable id: String, @RequestBody item: Item): ResponseEntity<Void> {
-        val index = items.indexOfFirst { it.id == id }
-        if (index == -1)
+        if (!repository.existsById(id))
             return ResponseEntity.notFound().build()
 
-        items[index] = Item(item.id ?: id, item.subject, item.done)
+        repository.save(Item(item.id ?: id, item.subject, item.done))
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: String): ResponseEntity<Void> {
-        items.removeAll { it.id == id }
+        repository.deleteById(id)
         return ResponseEntity.noContent().build()
     }
 }
