@@ -5,3 +5,5 @@ build
 .vscode
 .yarn
 dist
+.env
+**/generated/*
