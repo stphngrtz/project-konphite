@@ -19,7 +19,7 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: :todo-service:build
+          arguments: :todo-service:build --debug
       - uses: actions/cache@v2
         if: ${{ github.ref == 'refs/heads/main' }}
         id: restore-build-artifact
