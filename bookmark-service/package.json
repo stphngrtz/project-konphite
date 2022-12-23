@@ -6,6 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "db:dev:start": "docker run --name postgres -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=super_secret_pw -e POSTGRES_DB=bookmarks postgres:15 && sleep 2 && npx prisma migrate deploy",
+    "db:dev:rm": "docker rm -f postgres",
+    "db:dev:restart": "npm run db:dev:rm && npm run db:dev:start",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
