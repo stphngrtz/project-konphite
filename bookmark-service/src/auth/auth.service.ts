@@ -20,7 +20,6 @@ export class AuthService {
             });
 
             delete user.hash; // easy and dirty solution
-
             return user;
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') { // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
@@ -30,7 +29,20 @@ export class AuthService {
         }
     }
 
-    signin() {
-        return { msg: 'I have signed in' }
+    async signin(dto: AuthDto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email
+            }
+        })
+        if (!user)
+            throw new ForbiddenException('Credentials incorrect');
+
+        const pwMatches = await argon.verify(user.hash, dto.password);
+        if (!pwMatches)
+            throw new ForbiddenException('Credentials incorrect');
+
+        delete user.hash;
+        return user;
     }
 }
