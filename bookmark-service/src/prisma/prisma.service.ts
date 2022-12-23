@@ -13,4 +13,13 @@ export class PrismaService extends PrismaClient {
             }
         })
     }
+
+    cleanDb() {
+        return this.user.deleteMany();
+        // without delete cascade:
+        // return this.$transaction([
+        //     this.bookmark.deleteMany(),
+        //     this.user.deleteMany()
+        // ]);
+    }
 }
