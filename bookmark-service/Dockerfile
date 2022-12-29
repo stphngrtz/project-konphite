@@ -2,7 +2,11 @@
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
 
-FROM node:19-bullseye-slim As development
+FROM node:19-bullseye AS development
+# cannot use alpine or slim image b/c of a bug with Prisma, see
+# - https://github.com/prisma/prisma/issues/8478
+# - https://github.com/prisma/prisma/issues/9572
+# - https://github.com/prisma/prisma/issues/16553
 
 WORKDIR /usr/src/app
 
@@ -18,7 +22,11 @@ USER node
 # BUILD FOR PRODUCTION
 ###################
 
-FROM node:19-bullseye-slim As build
+FROM node:19-bullseye AS build
+# cannot use alpine or slim image b/c of a bug with Prisma, see
+# - https://github.com/prisma/prisma/issues/8478
+# - https://github.com/prisma/prisma/issues/9572
+# - https://github.com/prisma/prisma/issues/16553
 
 WORKDIR /usr/src/app
 
@@ -42,13 +50,17 @@ USER node
 # PRODUCTION
 ###################
 
-FROM node:19-bullseye-slim As production
+FROM node:19-bullseye AS production
+# cannot use alpine or slim image b/c of a bug with Prisma, see
+# - https://github.com/prisma/prisma/issues/8478
+# - https://github.com/prisma/prisma/issues/9572
+# - https://github.com/prisma/prisma/issues/16553
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 
 EXPOSE 3000
 
-ENTRYPOINT [ "node", "dist/main.js" ]
+ENTRYPOINT [ "npm", "run", "start:prod" ]
 
 # thanks to https://www.tomray.dev/nestjs-docker-production
