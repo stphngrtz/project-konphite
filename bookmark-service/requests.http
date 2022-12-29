@@ -1,4 +1,4 @@
-@base_url = http://localhost:3333
+@base_url = http://localhost:3000
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZHVtbXlAbWFpbC5kZSIsImlhdCI6MTY3MTc5NjQ4MCwiZXhwIjoxNjcxNzk3MzgwfQ.GIYPGIEUVGgTYgojrSEsGPZMBvyPSzCMbMbS8oZeRZU
 
 ###
