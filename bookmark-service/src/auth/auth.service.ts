@@ -8,7 +8,11 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-    constructor(private prisma: PrismaService, private jwt: JwtService, private config: ConfigService) {}
+    constructor(
+        private prisma: PrismaService,
+        private jwt: JwtService,
+        private config: ConfigService,
+    ) {}
 
     async signup(dto: AuthDto) {
         const hash = await argon.hash(dto.password);
@@ -16,14 +20,18 @@ export class AuthService {
             const user = await this.prisma.user.create({
                 data: {
                     email: dto.email,
-                    hash: hash
+                    hash: hash,
                 },
-                select: { id: true, email: true }
+                select: { id: true, email: true },
             });
             return this.signToken(user.id, user.email);
         } catch (error) {
-            if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') { // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
-                throw new ForbiddenException('Credentials already taken')
+            if (
+                error instanceof PrismaClientKnownRequestError &&
+                error.code === 'P2002'
+            ) {
+                // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
+                throw new ForbiddenException('Credentials already taken');
             }
             throw error;
         }
@@ -32,15 +40,13 @@ export class AuthService {
     async signin(dto: AuthDto) {
         const user = await this.prisma.user.findUnique({
             where: {
-                email: dto.email
-            }
-        })
-        if (!user)
-            throw new ForbiddenException('Credentials incorrect');
+                email: dto.email,
+            },
+        });
+        if (!user) throw new ForbiddenException('Credentials incorrect');
 
         const pwMatches = await argon.verify(user.hash, dto.password);
-        if (!pwMatches)
-            throw new ForbiddenException('Credentials incorrect');
+        if (!pwMatches) throw new ForbiddenException('Credentials incorrect');
 
         return this.signToken(user.id, user.email);
     }
@@ -48,15 +54,15 @@ export class AuthService {
     async signToken(userId: number, email: string) {
         const payload = {
             sub: userId,
-            email
-        }
+            email,
+        };
         const token = await this.jwt.signAsync(payload, {
             expiresIn: '15m',
-            secret: this.config.get('JWT_SECRET')
+            secret: this.config.get('JWT_SECRET'),
         });
 
         return {
-            access_token: token
-        }
+            access_token: token,
+        };
     }
 }

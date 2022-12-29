@@ -9,11 +9,11 @@ export class UserService {
     async editUser(id: number, dto: EditUserDto) {
         const user = await this.prisma.user.update({
             where: {
-                id: id
+                id: id,
             },
             data: {
-                ...dto // destructure
-            }
+                ...dto, // destructure
+            },
         });
         delete user.hash;
         return user;

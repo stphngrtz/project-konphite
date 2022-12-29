@@ -10,7 +10,8 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @Get('me')
-    getMe(@User() user: any) { // also possible: @User('email') email: string
+    getMe(@User() user: any) {
+        // also possible: @User('email') email: string
         return user;
     }
 

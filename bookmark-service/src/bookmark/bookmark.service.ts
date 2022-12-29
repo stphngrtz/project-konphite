@@ -11,8 +11,8 @@ export class BookmarkService {
         const bookmark = await this.prismaService.bookmark.create({
             data: {
                 userId: userId,
-                ...dto
-            }
+                ...dto,
+            },
         });
         return bookmark;
     }
@@ -20,8 +20,8 @@ export class BookmarkService {
     getBookmarks(userId: number) {
         return this.prismaService.bookmark.findMany({
             where: {
-                userId: userId
-            }
+                userId: userId,
+            },
         });
     }
 
@@ -29,36 +29,40 @@ export class BookmarkService {
         return this.prismaService.bookmark.findFirst({
             where: {
                 id: bookmarkId,
-                userId: userId
-            }
+                userId: userId,
+            },
         });
     }
 
-    async editBookmarkById(userId: number, bookmarkId: number, dto: EditBookmarkDto) {
+    async editBookmarkById(
+        userId: number,
+        bookmarkId: number,
+        dto: EditBookmarkDto,
+    ) {
         const bookmark = await this.prismaService.bookmark.findUnique({
             where: {
-                id: bookmarkId
-            }
+                id: bookmarkId,
+            },
         });
 
         if (!bookmark || bookmark.userId !== userId)
             throw new ForbiddenException('Access to resource denied');
-        
+
         return this.prismaService.bookmark.update({
             where: {
-                id: bookmarkId
+                id: bookmarkId,
             },
             data: {
-                ...dto
-            }
+                ...dto,
+            },
         });
     }
 
     async deleteBookmarkById(userId: number, bookmarkId: number) {
         const bookmark = await this.prismaService.bookmark.findUnique({
             where: {
-                id: bookmarkId
-            }
+                id: bookmarkId,
+            },
         });
 
         if (!bookmark || bookmark.userId !== userId)
@@ -66,8 +70,8 @@ export class BookmarkService {
 
         await this.prismaService.bookmark.delete({
             where: {
-                id: bookmarkId
-            }
-        })
+                id: bookmarkId,
+            },
+        });
     }
 }
