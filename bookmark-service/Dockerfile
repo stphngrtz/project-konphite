@@ -58,9 +58,14 @@ FROM node:19-bullseye AS production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/package*.json ./
+COPY --chown=node:node --from=build /usr/src/app/prisma ./prisma
+
+ENV DATABASE_URL=""
+ENV JWT_SECRET=""
 
 EXPOSE 3000
 
-ENTRYPOINT [ "npm", "run", "start:prod" ]
+ENTRYPOINT [ "npm", "run", "start:migrate:prod" ]
 
 # thanks to https://www.tomray.dev/nestjs-docker-production
