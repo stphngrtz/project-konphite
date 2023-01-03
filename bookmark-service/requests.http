@@ -1,0 +1,26 @@
+@base_url = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZHVtbXlAbWFpbC5kZSIsImlhdCI6MTY3MTc5NjQ4MCwiZXhwIjoxNjcxNzk3MzgwfQ.GIYPGIEUVGgTYgojrSEsGPZMBvyPSzCMbMbS8oZeRZU
+
+###
+# Signup
+
+POST {{base_url}}/auth/signup
+Content-Type: application/x-www-form-urlencoded
+
+email=dummy@mail.de
+&password=secret
+
+###
+# Signin
+
+POST {{base_url}}/auth/signin
+Content-Type: application/x-www-form-urlencoded
+
+email=dummy@mail.de
+&password=secret
+
+###
+# Get user info
+
+GET {{base_url}}/users/me
+Authorization: Bearer {{token}}
