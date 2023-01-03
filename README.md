@@ -11,14 +11,14 @@ Oh, speaking of serious decisions, the project name comes from a [name generator
 This section is intended to give an overview of what is inside this project, with a short list of used technologies / tools. For more details please see the README of the sub-project.
 
 ### Documentation
-In `/documentation` you can find a dummy lorem ipsum documentation, written in AsciiDoc, using some PlantUML diagrams and a deployment pipeline to GitHub Pages.
+In `/documentation` [(link)](./documentation/) you can find a dummy lorem ipsum documentation, written in AsciiDoc, using some PlantUML diagrams and a deployment pipeline to GitHub Pages.
 
 - [AsciiDoc](https://asciidoctor.org/)
 - [PlantUML](https://plantuml.com/)
 - [GitHub Pages](https://pages.github.com/)
 
 ### TODO-Service
-In `/todo-service` I've put a simple CRUD service for todo list items, written in Kotlin, based on Spring Boot 3.
+In `/todo-service` [(link)](./todo-service/) I've put a simple CRUD service for todo list items, written in Kotlin, based on Spring Boot 3.
 
 - [Gradle](https://gradle.org/) (Kotlin)
 - [Spring Boot 3](https://spring.io/projects/spring-boot)
@@ -27,7 +27,7 @@ In `/todo-service` I've put a simple CRUD service for todo list items, written i
 - [Testcontainers](https://www.testcontainers.org/)
 
 ### Bookmark-Service
-`/bookmark-service` contains a simple CRUD service for bookmarks, written in TypeScript, based on NestJS.
+`/bookmark-service` [(link)](./bookmark-service/) contains a simple CRUD service for bookmarks, written in TypeScript, based on NestJS.
 
 - [Node.js](https://nodejs.org/) / npm
 - [NestJS](https://nestjs.com/)
