@@ -25,6 +25,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:junit-jupiter:1.17.6")
     testImplementation("org.testcontainers:testcontainers:1.17.6")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
 }
 
 tasks.withType<KotlinCompile> {
