@@ -20,5 +20,6 @@ class TodoServiceApplication {
 }
 
 fun main(args: Array<String>) {
+    @Suppress("SpreadOperator")
     runApplication<TodoServiceApplication>(*args)
 }
