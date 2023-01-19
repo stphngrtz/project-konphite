@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/stphngrtz/konphite/todo-service
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  port: 8080
+
+redis:
+  enabled: true # should only be enabled in dev environment
+  host: todo-service-redis-master
+  auth:
+    password: secretpassword

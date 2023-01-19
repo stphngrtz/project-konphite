@@ -2,7 +2,7 @@
 A simple CRUD service for todo list items.
 
 ```bash
-# prerequisite: redis
+# prerequisite: Redis
 docker run --name redis -d -p 6379:6379 redis:7
 
 # build and run executable jar
@@ -20,6 +20,9 @@ docker run --name todo-service -d -p 8080:8080 -e SPRING_DATA_REDIS_HOST=$HOST k
 
 # run Docker container from ghcr.io
 docker run --name todo-service -d -p 8080:8080 -e SPRING_DATA_REDIS_HOST=$HOST ghcr.io/stphngrtz/konphite/todo-service:latest
+
+# run in Kubernetes from Helm chart (with Redis as dependency)
+helm install todo-service src/main/helm
 ```
 
 See `requests.http` for example requests.

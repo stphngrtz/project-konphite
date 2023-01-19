@@ -1,17 +1,19 @@
 # Sample requests for the TODO service
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+@host = localhost
+@port = 8080
 
 ###
 # get all items
-GET http://localhost:8080/items
+GET http://{{host}}:{{port}}/items
 
 ###
 # get item
-GET http://localhost:8080/items/1
+GET http://{{host}}:{{port}}/items/1
 
 ###
 # create item
-POST http://localhost:8080/items
+POST http://{{host}}:{{port}}/items
 Content-Type: application/json
 
 {
@@ -21,7 +23,7 @@ Content-Type: application/json
 
 ###
 # update item
-PUT http://localhost:8080/items/1
+PUT http://{{host}}:{{port}}/items/1
 Content-Type: application/json
 
 {
@@ -31,4 +33,4 @@ Content-Type: application/json
 
 ###
 # delete item
-DELETE http://localhost:8080/items/1
+DELETE http://{{host}}:{{port}}/items/1
