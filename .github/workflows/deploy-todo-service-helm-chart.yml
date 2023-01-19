@@ -4,8 +4,8 @@ on:
   push:
     paths:
       - "todo-service/src/main/helm/Chart.yaml"
-#    branches:
-#      - main
+    branches:
+      - main
 
 permissions:
   contents: read
