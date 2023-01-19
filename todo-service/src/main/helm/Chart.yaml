@@ -12,4 +12,4 @@ dependencies:
   repository: "https://charts.bitnami.com/bitnami"
   condition: redis.enabled
 
-# dummy1, dummy2
+# dummy1, dummy2, dummy3
