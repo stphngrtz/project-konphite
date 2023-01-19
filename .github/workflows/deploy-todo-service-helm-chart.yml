@@ -1,0 +1,27 @@
+name: Deploy todo-service Helm chart to GHCR
+
+on:
+  push:
+    paths:
+      - "todo-service/src/main/helm/Chart.yaml"
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: helm package
+        run: |
+          helm package ./todo-service/src/main/helm
+      - name: helm login
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username stphngrtz --password-stdin
+      - name: helm push
+        run: |
+          helm push todo-service-$(grep 'version:' ./todo-service/src/main/helm/Chart.yaml | head -n1 | awk '{ print $2 }').tgz oci://ghcr.io/stphngrtz/konphite/helm

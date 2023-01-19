@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+      initContainers:
+        - name: wait-for-redis
+          image: ghcr.io/patrickdappollonio/wait-for:latest # see https://github.com/patrickdappollonio/wait-for
+          env:
+            - name: REDIS_HOST
+              value: {{ .Values.redis.host }}
+          command:
+            - /wait-for
+          args:
+            - --host="$(REDIS_HOST):6379"
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /items
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /items
+              port: http
+          env:
+            - name: SPRING_DATA_REDIS_HOST
+              value: {{ .Values.redis.host }}
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "helm.fullname" . }}
+                  key: redis-password

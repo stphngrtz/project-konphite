@@ -25,6 +25,8 @@ In `/todo-service` [(link)](./todo-service/) I've put a simple CRUD service for 
 - [Kotlin](https://kotlinlang.org/)
 - [Redis](https://redis.io/)
 - [Testcontainers](https://www.testcontainers.org/)
+- [Docker image](https://www.docker.com/)
+- [Helm chart](https://helm.sh/)
 
 ### Bookmark-Service
 `/bookmark-service` [(link)](./bookmark-service/) contains a simple CRUD service for bookmarks, written in TypeScript, based on NestJS.
@@ -35,3 +37,4 @@ In `/todo-service` [(link)](./todo-service/) I've put a simple CRUD service for 
 - [Passport](https://www.passportjs.org/) (JWT Strategy)
 - [Jest](https://jestjs.io/) e2e tests
 - [PactumJS](https://pactumjs.github.io/)
+- [Docker image](https://www.docker.com/)
