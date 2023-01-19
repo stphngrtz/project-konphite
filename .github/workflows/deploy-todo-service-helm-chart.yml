@@ -4,15 +4,15 @@ on:
   push:
     paths:
       - "todo-service/src/main/helm/Chart.yaml"
-#    branches:
-#      - main
+    branches:
+      - main
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-  release:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,4 +24,4 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username stphngrtz --password-stdin
       - name: helm push
         run: |
-          helm push todo-service-$(grep 'version:' ./todo-service/src/main/helm/Chart.yaml | head -n1 | awk '{ print $2 }').tgz oci://ghcr.io/stphngrtz/konphite
+          helm push todo-service-$(grep 'version:' ./todo-service/src/main/helm/Chart.yaml | head -n1 | awk '{ print $2 }').tgz oci://ghcr.io/stphngrtz/konphite/helm
