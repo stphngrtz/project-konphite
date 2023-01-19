@@ -14,6 +14,16 @@ spec:
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
     spec:
+      initContainers:
+        - name: wait-for-redis
+          image: ghcr.io/patrickdappollonio/wait-for:latest # see https://github.com/patrickdappollonio/wait-for
+          env:
+            - name: REDIS_HOST
+              value: {{ .Values.redis.host }}
+          command:
+            - /wait-for
+          args:
+            - --host="$(REDIS_HOST):6379"
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
