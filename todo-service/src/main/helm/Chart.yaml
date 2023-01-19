@@ -11,5 +11,3 @@ dependencies:
   version: "17.4.3"
   repository: "https://charts.bitnami.com/bitnami"
   condition: redis.enabled
-
-# dummy1, dummy2, dummy3

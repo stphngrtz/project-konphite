@@ -23,6 +23,9 @@ docker run --name todo-service -d -p 8080:8080 -e SPRING_DATA_REDIS_HOST=$HOST g
 
 # run in Kubernetes from Helm chart (with Redis as dependency)
 helm install todo-service src/main/helm
+
+# run in Kubernetes from Helm chart (with Redis as dependency) deployed to ghcr.io
+helm install todo-service oci://ghcr.io/stphngrtz/konphite/helm/todo-service --version 0.1.0
 ```
 
 See `requests.http` for example requests.
@@ -50,6 +53,10 @@ List of things I've (more or less) used for the first time during project implen
 - [Testcontainers](https://www.testcontainers.org/)
 
   I've used Testcontainers in the past, but not with Redis and not from a test written in Kotlin.
+
+- [Helm chart](https://helm.sh/) deployed to [GitHub Packages](https://github.com/features/packages)
+
+  I'm already using GitHub Packages for my Docker images, but I've never used it as a registry for a Helm chart. Helm v3 is [OCI compatible](https://helm.sh/docs/topics/registries/#using-an-oci-based-registry), which makes this possible. What makes it even better is that setting it up was also quite simple.
 
 ## Troubleshooting
 ### Testcontainers with Colima
