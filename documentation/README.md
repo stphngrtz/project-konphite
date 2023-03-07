@@ -3,10 +3,10 @@ Dummy documentation to use tools like [AsciiDoc](https://asciidoctor.org/) or [P
 
 ```bash
 # create documentation
-../gradlew asciidoctor
+../gradlew :documentation:asciidoctor
 
 # open documentation
-open build/docs/index.html
+open build/docs/asciidoc/index.html
 ```
 
 ## Ingredients
@@ -19,6 +19,10 @@ List of things I've (more or less) used for the first time during project implen
 - [PlantUML](https://plantuml.com/)
 
   To define UML diagrams with a simple and intuitive language sounds interesing enough to give it a try. It definetly has its shortcomings compared to a graphical editor where you can draw boxes and lines wherever you want, but in general the result is pretty impressive. I'm definitely going to use it more often in the future.
+
+- [C4](https://c4model.com/)
+
+  C4 is an easy to learn, developer friendly approach to visualising software architecture. But why, we already have UML, you may ask. The argument of the C4 creators is that UML too heavy, the notation is too complex. With that, they have a point.
 
 - [GitHub Pages](https://pages.github.com/)
 
