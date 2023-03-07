@@ -1,0 +1,33 @@
+@startuml c4-container
+!pragma layout smetana
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Container Diagram
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 200
+
+AddElementTag("other", $bgColor="#73ace5", $legendText="other")
+
+Boundary(konphite, "Project Konphite") {
+    System(documentation, "Documentation", "Dummy documentation to get hands on experience with different tools.", $tags="other")
+
+    Boundary(bookmarks, "Bookmarks") {
+        Container(bookmark_service, "Bookmark Service", "TypeScript, NestJS", "A simple CRUD service for bookmarks.")
+        ContainerDb(postgres, "Database", "PostgreSQL", "...")
+    }
+    
+}
+
+Person(user, "User")
+System_Ext(iam, "IAM", "Cloud-based identity and access management system.")
+System_Ext(monitoring, "Monitoring", "Cloud-based monitoring system providing access to logs, metrics and traces.")
+
+Rel(user, bookmark_service, "adding/updating/removing\nbookmarks", "JSON/HTTP")
+Rel_R(bookmark_service, postgres, "reading/writing bookmarks")
+Rel(bookmark_service, iam, "verifying access", "OIDC")
+Rel(bookmark_service, monitoring, "sending logs, metrics & traces", "Avro/Kafka")
+
+SHOW_LEGEND()
+
+@enduml

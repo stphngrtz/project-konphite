@@ -1,0 +1,31 @@
+@startuml c4-context
+!pragma layout smetana
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Context Diagram
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 200
+
+AddElementTag("other", $bgColor="#73ace5", $legendText="other")
+
+Boundary(konphite, "Project Konphite") {
+    System(documentation, "Documentation", "Dummy documentation to get hands on experience with different tools.", $tags="other")
+    System(todo_service, "Todos", "A simple CRUD service for todo list items.")
+    System(bookmark_service, "Bookmarks", "A simple CRUD service for bookmarks.")
+}
+
+Person(user, "User")
+System_Ext(iam, "IAM", "Cloud-based identity and access management system.")
+System_Ext(monitoring, "Monitoring", "Cloud-based monitoring system providing access to logs, metrics and traces.")
+
+Rel(user, todo_service, "adding/updating\ntodo list items")
+Rel(user, bookmark_service, "adding/updating/removing\nbookmarks")
+Rel(todo_service, iam, "verifying access")
+Rel(bookmark_service, iam, "verifying access")
+Rel(todo_service, monitoring, "sending logs, metrics & traces")
+Rel(bookmark_service, monitoring, "sending logs, metrics & traces")
+
+SHOW_LEGEND()
+
+@enduml
